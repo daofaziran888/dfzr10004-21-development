@@ -10,9 +10,16 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
 from app.routers import ROUTERS
+from app.services.incident import bootstrap_demo
 from app.store import store
 
 app = FastAPI(title="智能采集质量管控平台", version="1.0.0")
+
+
+@app.on_event("startup")
+def _bootstrap_alert_demo() -> None:
+    """启动时准备告警聚合示例数据（已存在数据则跳过）。"""
+    bootstrap_demo()
 
 app.add_middleware(
     CORSMiddleware,

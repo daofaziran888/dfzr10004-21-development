@@ -33,3 +33,53 @@ body { margin: 0; background: #f6f8fb; color: #1f2937; }
 .link { border: none; background: none; color: var(--brand); cursor: pointer; padding: 0; }
 .page-foot { display: flex; justify-content: space-between; margin-top: 8px; font-size: 12px; color: var(--muted); }
 .error-text { color: #b42318; }
+
+/* ---- 告警聚合面板 ---- */
+.tab-bar { display: flex; gap: 6px; margin-bottom: 12px; border-bottom: 1px solid var(--border); }
+.tab-item { border: none; background: none; padding: 8px 14px; cursor: pointer; font-size: 13px; color: var(--muted); border-bottom: 2px solid transparent; }
+.tab-item.active { color: var(--brand); border-bottom-color: var(--brand); font-weight: 600; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 12px; white-space: nowrap; }
+.badge.critical { background: #fee4e2; color: #b42318; }
+.badge.major { background: #fef0c7; color: #b54708; }
+.badge.minor { background: #e0f2fe; color: #0369a1; }
+.badge.firing { background: #fee4e2; color: #b42318; }
+.badge.recovered { background: #dcfae6; color: #027a48; }
+.badge.merged { background: #eaecf0; color: #475467; }
+.badge.silence { background: #f2f4f7; color: #344054; }
+.muted { color: var(--muted); background: #fafbfc; }
+.muted-text { color: var(--muted); font-size: 12px; }
+.danger { color: #b42318; }
+.batch-bar { display: flex; gap: 10px; align-items: center; background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; margin-bottom: 10px; flex-wrap: wrap; }
+.batch-bar .btn:disabled { opacity: .45; cursor: not-allowed; }
+.select-all { font-size: 13px; display: flex; align-items: center; gap: 6px; margin-right: auto; }
+.result-panel { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; margin-bottom: 10px; }
+.result-head { display: flex; gap: 12px; align-items: center; margin-bottom: 8px; font-size: 13px; }
+.result-summary { display: flex; gap: 6px; flex: 1; flex-wrap: wrap; }
+.result-chip { font-style: normal; background: #f2f4f7; border-radius: 10px; padding: 2px 8px; font-size: 12px; }
+.result-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.result-list li { display: flex; gap: 10px; font-size: 13px; align-items: baseline; }
+.result-list li.ok .result-action { color: #027a48; }
+.result-list li.fail .result-action { color: #b42318; }
+.result-action { min-width: 36px; font-weight: 600; }
+.result-target { min-width: 90px; color: var(--muted); }
+.result-message { flex: 1; }
+.conclusion-cell { min-width: 280px; }
+.simulate-panel { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+.simulate-form { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; }
+.simulate-form .filter-item { min-width: 220px; }
+.simulate-form .wide { min-width: 360px; flex: 1; }
+.filter-item select, .filter-item input { width: 100%; padding: 6px 8px; border: 1px solid var(--border); border-radius: 6px; font-size: 13px; }
+.ingest-message { background: #e0f2fe; color: #0369a1; padding: 8px 12px; border-radius: 6px; font-size: 13px; margin-top: 10px; }
+.rule-hint { color: var(--muted); font-size: 12px; margin-top: 12px; padding-left: 18px; display: flex; flex-direction: column; gap: 4px; }
+.drawer-mask { position: fixed; inset: 0; background: rgba(16, 24, 40, .45); display: flex; justify-content: flex-end; z-index: 50; }
+.drawer { width: 560px; max-width: 92vw; background: #fff; height: 100%; overflow-y: auto; display: flex; flex-direction: column; }
+.drawer-head { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; border-bottom: 1px solid var(--border); }
+.drawer-body { padding: 14px 18px; font-size: 13px; }
+.drawer-body h4 { margin: 16px 0 8px; }
+.drawer-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.drawer-list li { display: flex; gap: 8px; align-items: baseline; }
+.conclusion-box { background: #dcfae6; color: #027a48; padding: 10px 12px; border-radius: 6px; }
+.disposal-panel { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 12px; margin-bottom: 16px; }
+.disposal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.disposal-head h3 { margin: 0; font-size: 15px; }
+.history-check { font-size: 13px; display: flex; align-items: center; gap: 6px; margin-right: 10px; }

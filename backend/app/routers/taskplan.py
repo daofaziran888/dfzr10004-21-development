@@ -6,6 +6,7 @@ from typing import Any
 from fastapi import APIRouter, HTTPException, Query
 
 from app.schemas import ActionResult, EntryPayload, PageResult
+from app.services.incident import incident_service
 from app.services.taskplan import TaskplanService
 
 router = APIRouter(prefix="/api/taskplan", tags=["采集任务编排"])
@@ -28,6 +29,34 @@ def list_entries(
         raise HTTPException(status_code=400, detail="每页最多 200 条，请缩小分页范围")
     items, total = service.list_entries(keyword=keyword, status=status, page=page, size=size)
     return PageResult(items=items, total=total, page=page, size=size)
+
+
+@router.get("/incidents/todos")
+def list_disposal_todos(
+    include_closed: bool = Query(default=False, description="是否包含已恢复/已确认退出的历史待办"),
+    plan: str | None = Query(default=None, description="按计划编号过滤"),
+) -> dict[str, Any]:
+    """采集计划处置清单：结论直接取告警聚合组，与告警规则清单使用同一聚合结论。"""
+    items = incident_service.list_todos(include_closed=include_closed, plan=plan)
+    return {"items": items, "total": len(items)}
+
+
+@router.post("/incidents/todos/{group_id}/acknowledge", response_model=ActionResult)
+def acknowledge_todo(group_id: int, payload: EntryPayload) -> ActionResult:
+    """在处置清单里人工确认一条待办：确认后待办退出，聚合结论同步刷新。"""
+    group, message = incident_service.acknowledge(group_id, payload.remark)
+    if group is None:
+        return ActionResult(ok=False, message=message)
+    return ActionResult(ok=True, message=message, entry=group)
+
+
+@router.post("/incidents/todos/{group_id}/recover", response_model=ActionResult)
+def recover_todo(group_id: int, payload: EntryPayload) -> ActionResult:
+    """在处置清单里直接整组恢复：生成恢复通知并关闭待办。"""
+    group, message = incident_service.recover_group(group_id, payload.remark)
+    if group is None:
+        return ActionResult(ok=False, message=message)
+    return ActionResult(ok=True, message=message, entry=group)
 
 
 @router.get("/{entry_id}", response_model=dict)

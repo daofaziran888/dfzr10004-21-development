@@ -10,13 +10,19 @@ from app.seed import SEED_ROWS
 
 
 class Store:
+    # 告警聚合域的四张内部表：不参与运营概览的模块卡片统计
+    INCIDENT_TABLES = ("alert_event", "alert_group", "alert_notification", "alert_todo")
+
     def __init__(self) -> None:
         self._tables: dict[str, list[dict[str, Any]]] = {
             name: [dict(row) for row in rows] for name, rows in SEED_ROWS.items()
         }
+        for name in self.INCIDENT_TABLES:
+            self._tables.setdefault(name, [])
 
     def module_names(self) -> list[str]:
-        return sorted(self._tables)
+        # 告警聚合域的内部表不作为业务模块出现在概览/健康检查里
+        return sorted(name for name in self._tables if name not in self.INCIDENT_TABLES)
 
     def rows(self, module: str) -> list[dict[str, Any]]:
         return self._tables.setdefault(module, [])
